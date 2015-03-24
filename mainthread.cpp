@@ -215,12 +215,12 @@ void MainThread::run()
   RegionClassifier region_boost("boost_train/trained_boost_char.xml", 0);
   GroupClassifier  group_boost("boost_train/trained_boost_groups.xml", &region_boost);
 
-    std::cout<<"line 214"<<endl;
   img = imread(filename);
-      std::cout<<"line 216"<<endl;
+  emit setFrameSig(0, &img);
+
   cvtColor(img, grey, CV_BGR2GRAY);
   cvtColor(img, lab_img, CV_BGR2Lab);
-      std::cout<<"line 219"<<endl;
+
   gradient_magnitude = Mat_<double>(img.size());
   get_gradient_magnitude( grey, gradient_magnitude);
   segmentation = Mat::zeros(img.size(),CV_8UC3);
@@ -686,5 +686,6 @@ void MainThread::run()
     char buf[100];
     sprintf(buf, "out1/%s.out.png", filename);
     imwrite(buf, tmp);
+    emit setFrameSig(4, &tmp);
   }
 }

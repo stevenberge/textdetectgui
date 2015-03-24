@@ -30,7 +30,7 @@ void MainWindow::on_pushButton_2_clicked()
     DBG<<"begin handle with :"<<qfile<<endl;
     MainThread *mt = new MainThread(qfile);
     connect(mt, SIGNAL(setFrameSig(int, Mat*)), this, SLOT(setFrame(int, Mat*)), Qt::BlockingQueuedConnection);
-    connect(mt, SIGNAL(setLabelSig), this, SLOT(setLabel), Qt::BlockingQueuedConnection);
+    connect(mt, SIGNAL(setLabelSig(int, int)), this, SLOT(setLabel(int, int)), Qt::BlockingQueuedConnection);
     mt->start();
 }
 
@@ -58,7 +58,9 @@ void MainWindow::setFrame(int id, Mat *mat){
 }
 void  MainWindow::setLabel(int step, int thr){
     // display current progress on UI
+    std::cout<<"set label "<<step<<" "<<thr<<endl;
         QLabel *label = this->findChild<QLabel*>("label");
-        sprintf(buf, "step : %d,         Thr = %d", step, thr);
+        char buf[40];
+        sprintf(buf, "step : %d,       Thr = %d", step, thr);
         label->setText(buf);
 }
